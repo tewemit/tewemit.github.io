@@ -132,7 +132,7 @@ header {
   color: goldenrod;
   text-decoration: underline;
   font-style: bold;
-  font-size: 4em;
+  font-size: 2em;
   text-transform: capitalize;
   background-color: lightgray;
 }
@@ -143,8 +143,9 @@ header {
 }
 .flex-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-flow: row wrap;
+  justify-content: flex-end;
 }
 .flex-child{
   display: block;
