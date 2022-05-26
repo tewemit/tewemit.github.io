@@ -131,7 +131,6 @@ header {
 .pie-header{
   color: goldenrod;
   text-decoration: underline;
-  font-style: bold;
   font-size: 2em;
   text-transform: capitalize;
   background-color: lightgray;
