@@ -22,8 +22,11 @@ a:hover {
   border-radius: 15px;
   color: #ffffff;
 }
-.flex{
-  display: flex;
+
+.center {
+text-align: center;
+align-items: center;
+align-content: center;
 }
 .row {
   display: inline-block;
@@ -33,7 +36,7 @@ a:hover {
 }
 .avatar {
   position: relative; 
-  background-color: rgb(213, 179, 122);
+  background-color: rgba(159, 38, 29, 0.919);
   width: 230px;
   height: 250px;
   overflow: hidden;
@@ -47,6 +50,9 @@ a:hover {
 }
 .w-33{
   width: 33%;
+}
+.w-300{
+  min-width: 300px;
 }
 .m-5{
   margin: 5%;
@@ -169,12 +175,10 @@ header {
   display: flex;
   flex-direction: column;
   flex-flow: row wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  
 }
-.flex-child{
-  display: block;
-  width: 50%;
-}
+
 .navigation {
   display: flex;
   flex-flow: row wrap;
