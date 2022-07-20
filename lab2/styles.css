@@ -3,6 +3,7 @@
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+    text-overflow: ellipsis;
     
   }
  .w-50 {
@@ -67,7 +68,7 @@
       margin-bottom: 20px;
       height: 190px;
   }
-  .menu-item{
+  .footer-menu-item{
       margin: 10px;
       font-size: large;
   }
@@ -89,4 +90,16 @@
     list-style-type: none; /* Remove bullets */
     padding: 0; /* Remove padding */
     margin: 0; /* Remove margins */
+  }
+  @media all and (max-width: 600px) {
+      .flex-container {
+          flex-wrap: wrap;
+          flex-direction: crowolumn wrap;
+
+      }
+      .flex-container > div {
+        font-size: medium;
+        max-width: 100%;
+        
+      }
   }
