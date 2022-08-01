@@ -1,0 +1,180 @@
+
+* {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: bisque;
+}
+
+/*
+next declaration has specificify of 1-2-1 i.e 1 ID, two clasess (:focus and :required), 1 type (input)*/
+[type="password"], /* 0-1-0 */
+input:focus, /* 0-1-1 i.e 0-1-0 focus, and 0-0-1 input */
+:root #myApp input:required { /* apply this rule to all required input which are inside myApp which in turn is inside root */
+    color: blue;
+}
+/**
+the above is like defining 3 different selectors i.2
+[type="password"],
+{    color: blue;}
+input:focus, 0-1-1 i.e 0-1-0 focus, and 0-0-1 input
+{  color: blue;}
+:root #myApp input:required { color: blue;} --
+
+ */
+:is(p) { /* 0-0-1 */
+    content: "test";
+    color: #5696cb;
+}
+
+input:before {
+    content: "In: ";
+}
+
+:not(p) { /* 0-0-1*/
+    color: blue;
+}
+
+/* unvisited link */ a:link { color: #5696cb; }
+
+/* visited link */ a:visited { color: #c16308; }
+
+/* mouse over link */ a:hover { color: #FF00FF; }
+
+/* click on a link */ a:active { color: #0000FF; }
+div.outer p { /* 0-1-2 */
+}
+
+div:not(.inner) p { /* 0-1-2 */
+}
+
+:is(p, #fakeId) { /* 1-0-0 */
+}
+
+#fakeId1#fakeId2#fakeId3 {
+    color: cadetblue; /* 3-0-1 */
+}
+
+/* The following are 3 different ways of specificity*/
+#myContent h1 {
+    color: green; /* 1-0-1 */
+}
+
+[id="myContent"] h1 {
+    color: yellow; /* 0-1-1 */
+}
+
+:where(#myContent) h1 {
+    color: blue; /* 0-0-1 */
+}
+
+/*
+Directly targeted elements vs. inherited styles
+<body id="parent">
+    <h1>Here is a title!</h1> // will be purple
+  </body>
+*/
+#parent {    color: green;}
+
+h1 {    color: purple;}
+
+#myElement input.myClass { /* this is not the same as #myElement.myClass*/
+    color: red;
+}
+
+/* 1-2-2 */
+#myElement.myClass:focus { /* different from #myElement input.myClass input:focus*/
+    color: yellow;
+}
+/*though weight is 1-2-3 below, the above selector is more specific semantically*/
+#myElement input.myClass input:focus {
+    color: blueviolet;
+}
+
+/* 1-2-2 */
+input[type="password"]:required {
+    color: blue;
+}
+
+/* 0-2-1 */
+html body main input {
+    color: green;
+}
+
+/* 0-0-4 */
+
+.code {
+    background-color: #414141;
+    color: white;
+    padding: 10px;
+    padding-left: 20px;
+    width: fit-content;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+em.awesome #recent {
+    color: orange;
+}
+/**
+the above is the same as :
+em.awesome {color: orange} - 100
+#recent {color: orange} - 011
+the code below will be more specific 111
+ */
+em.awesome#recent {    color: orange;}
+aside {    color: gray;}
+
+p {    color: green;}
+em {    color: yellow;}
+
+.awesome {    color: blue;}
+em.awesome {    color: red;}
+
+#recent {    color: black;}
+
+.nav {
+    background-color: yellow;
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.nav li {
+    display: inline-block;
+    font-size: 20px;
+    padding: 20px;
+}
+.menu {
+    text-align: center;
+    background-color: #c16308;
+
+}
+.menu div{
+    display: inline-block;
+    margin: 20px;
+}
+.thumbnail {
+    float: left ;
+    width: 200px;
+    height: 200px;
+    margin: 1em;
+    border-style: solid;
+    border-color: #c16308;
+}
+.after-thumbnail{
+    clear: left; /*move down this element to clear past floating elements. */
+    height: 100px;
+    background-color: gray;
+
+}
+.inline-block-img{
+    display: inline-block ;
+    width: 200px;
+    height: 200px;
+    margin: 1em;
+    border-style: solid;
+    border-color: #c16308;
+}
+.float-left {float: left}
+#columns {    column-count: 3; column-gap: 40px; column-rule: 2px dotted gray;}

@@ -1,0 +1,111 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div>
+    Select Student
+    <select id="names" style="width: 300px">
+
+    </select>
+    <button id="populateBtn">Populate</button>
+    <div id="details">
+    </div>
+</div>
+<button id="submitSkill">Submit</button>
+
+</body>
+<script>
+    let objectArray = [{Name: 'Ram', Age: 30, Skills: ['java', 'javascript']},
+        {Name: 'Shyam', Age: 20, Skills: ['python', 'c']}]
+
+    $(function () {
+        let select = $("#names");
+        // 1. create select list
+        objectArray.forEach(student => {
+            select.append("<option value=" + student.Name + ">" + student.Name + "</option>")
+        })
+        // populate
+        $("#populateBtn").click(function () {
+            let selectedStudent = objectArray.find(obj => obj.Name == select.val())
+            let ageLabel = '<label>Age</label> <input type="text" value="' + selectedStudent.Age + '"/>'
+
+            let skills = '<label >Skills</label>'
+            selectedStudent.Skills.forEach(skill => {
+                skills += '<input name ="skillName" type="checkbox" value ="' + skill + '" id="' + skill + '">' + skill
+
+            });
+            $("#details").html(ageLabel + "<br>" + skills)
+
+        })
+        //3 a. Once the User selects 'Java' from the skills and clicks on submit button, the subskills
+        $("#submitSkill").click(function () {
+            console.log($('#details > select > option').each((id, option) => {
+
+                if ($(option).prop('value') === $(this).prop('value')) {
+                    alert('doing nothing')
+                }
+            }))
+            console.log('ticked: ', $('input[type="checkbox"]').val())
+            let tickedSkill = $('input[type="checkbox"]').val()
+
+            let subskill = '<br><select id ="subskills">'
+            let subSkills = objectArray.find(obj => obj.Name == select.val()).Skills
+                .filter(skill => skill.toLowerCase() === tickedSkill.toLowerCase())
+            subSkills.forEach(subsk => {
+                subskill += '<option value="' + subsk + '" value="' + subsk + '">' + subsk + '</option>'
+            })
+
+            subskill += '</select>'
+            $("#details").append(subskill)
+
+        })
+        // 3 b.Once the User unchecks 'Java' , the Subskills should go away.
+
+        $(document).on("change", 'input[type=checkbox][name=skillName]', function () {
+                let subSkills = $('#details > select > option')
+                if ($(this).prop('checked') === true) {
+                    alert("Checked: ", $('input[type=checkbox][name=skillName]').prop('value') )
+                    $('#details > select > option').each((id, option) => {
+
+                        if ($(option).prop('value') === $(this).prop('value')) {
+                            alert('doing nothing')
+                        }
+                    })
+
+                    if ($('#details > select > option').find(option => $(option).prop('value') === $(this).prop('value'))) {
+                        console.log('su-skills already exist')
+                    } else {
+                        console.log('adding new one')
+                        $('#details > select > option').after('<option>new</option>')
+                    }
+
+
+                } else if ($(this).prop('checked') == false) {
+                    alert("Unchecked: ", $(this).prop('name'), $(this).val())
+                    $('#details > select > option').each((id, option) => {
+                        //alert('in unchecked box', $(this).val(), $(option).html())
+                        console.log($(option).prop('value'), $(this).prop('value'))
+                        if ($(option).prop('value') === $(this).prop('value')) {
+                            // alert('removing')
+                            $(option).remove()
+                        }
+                    })
+                    if ($('#details > select > option').length == 0) {
+                        $('#details > select').remove()
+                    }
+                }
+
+            }
+        )
+
+    });
+
+</script>
+</html>

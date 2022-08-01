@@ -1,0 +1,255 @@
+<!Document html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery DOM Manipulation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        .flex-container {
+            display: flex;
+        }
+
+        ul {
+            list-style: square;
+        }
+        .row {
+            width: 100%;
+            display: block;
+        }
+        #tableDiv {
+            ustify-content: left;
+            width: 100%;
+            box-shadow: #5696cb;
+            align-self: center;
+            align-items: center;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1 id="welcome"></h1>
+<h2 id="h21">We will test some actions</h2>
+<div class="flex-container">
+    <div>
+        <a href="">test href</a>
+        <button id="runBtn">change class</button>
+        <button id="selectBtn">Add elements to a tag</button>
+        <button id="createElement">Create Html element</button>
+        <button id="replaceDivWithP">Replace div with p</button>
+
+    </div>
+
+    <div id="outPutDiv">
+        <p class="changes"> changes</p>
+        <ul id="outputUl">
+
+        </ul>
+    </div>
+
+</div>
+<button id="createTable">Create/show skills table</button>
+<div id="filterDiv" class="row">
+
+    <input type="text" name="name" placeholder="filter by name">
+    <input type="number" name="age" placeholder="fileter by age">
+    <select id="skills" name="skills" multiple>
+        <option>Select skill to filter</option>
+    </select>
+    <button id="filterBtn"> Filter</button>
+
+</div>
+<button id="tableToUlBtn"> Show as ul list</button>
+<button id="sortByAge"> Sort by age</button>
+<div id="tableDiv" ></div>
+<div id="tableUl" ></div>
+<div>
+    <p>
+        6. Copy content from one element to another element
+        • Create a page with Two text fields, say Name and Alias and one button, Swap and when User clicks on button, swap the text. Name should show the content of Alias and viceversa.
+        • In the above page, add a button append, when append is clicked, the Alias should have its own content plus the name.
+    </p>
+    <input type="text" name="swapName" placeholder="name">
+    <input type="text" name="swapAlias" placeholder="alias">
+    <button id="swapBtn">Swap</button>
+    <button id="appendNameToAliasBtn">Append Name to Alias</button>
+</div>
+<input type="text" name="veg" value="replace me">
+</body>
+<script>
+
+    // since jQuery 3.3, we don't need .ready()
+    $(function () {
+        $("input:last").change( function () {
+            alert($("body").find('input:last').val() )
+        })
+
+    })
+    /**
+     * To do some actions when the page finishes loading.
+     *
+     * $(function() { // this is a shorthand for the code below i.e $() is the short hand for $(document).ready()
+     *     console.log( "ready!" );
+     * });
+     */
+    $(document).ready(function () {
+        /**
+         * Create a New Alias
+         * The jQuery.noConflict() method returns a reference to the jQuery function,
+         * so you can capture it in whatever variable you'd like:
+         */
+        // j is now an alias to the jQuery function; creating the new alias is optional.
+
+        console.log("Page is ready!");
+
+        let obj = [{name: "Ram", age: 30, skills: ["java", "javascript"]},
+            {name: "Shyam", age: 20, skills: ["python","reactjs"]}]
+
+        $("#welcome").html("Welcome to jQuery DOM man...")
+
+        $("h1").click(function () {
+            alert("The paragraph was clicked.");
+        });
+
+        $("#runBtn").click(function () {
+            // $( this ).slideUp();
+            $("#h21").attr("class", "h2")
+        })
+
+        $("#selectBtn").click(function () {
+            let ul = $("#outputUl")
+            ul.append("<li>new li</li>")
+            $(".changes").html("Added new Li")
+        })
+        $("#createElement").click(function () {
+            $("#outPutDiv").append("<p id='createdP'> Created this  paragraph</p>")
+        })
+        $("#replaceDivWithP").click(function () {
+            $("#createdP").replaceWith("<div id='createdDiv'> Replaced P with Div</div>")
+        })
+// .attr as getter and setter
+        $("a").attr("href", "allMyHrefsAreTheSameNow.html");
+
+        $("a").attr({
+            title: "all titles are the same too!",
+            href: "somethingNew.html"
+        });
+        $("#swapBtn").click(function () {
+            let nameValue = $('input[name="swapName"]').val()
+            let aliasValue = $('input[name="swapAlias"]').val()
+            $('input[name="swapAlias"]').val( nameValue)
+            $('input[name="swapName"]').val(aliasValue)
+        })
+        $("#appendNameToAliasBtn").click(function () {
+            let nameValue = $('input[name="swapName"]').val()
+            let aliasValue = $('input[name="swapAlias"]').val()
+            $('input[name="swapAlias"]').val(aliasValue + " " + nameValue)
+        })
+        $("#tableToUlBtn").click( function () {
+            let ulList = "<ul>"
+            let table = $("table#skillsTable tbody")
+            // fetch rows list
+            table.children().each(function (rowIndex, row) {
+                console.log("child row: ", row)
+                let jqRow = $(row)
+
+                //for each row
+                if (rowIndex > 0) {
+                    jqRow.children().each(function (tdId, td) {
+                        console.log("row: ", tdId, td)
+                        // for each td / column
+                        let jqCol = $(td)
+                        let property = tdId === 0 ? "Name: " : tdId === 1? "Age: ": "Skills"
+                        ulList += '<li>' + property + " " +jqCol.html()+'</li>'
+
+                    })
+                }
+
+            })
+            ulList += "</ul>"
+            $("#tableUl").html(ulList)
+            $("#tableUl").show()
+            $("table#skillsTable").hide()
+            $("#filterDiv").hide()
+        })
+       // $("#skills :selected").
+        $("#filterBtn").click( function () {
+            let skills = $('select#skills').val()
+            let name = $("input[name='name']").val()
+            let age = $("input[name='age']").val()
+            let filtered = obj.filter(person =>
+                (!!name ? person.name.toLowerCase().includes(name.toLowerCase()): true ) &&
+                (!!age ? person.age === Number.parseInt(age) : true ) &&
+               // (!!skills ? skills.some(skill => {
+                (!!skills ? skills.every(skill => {
+                    return person.skills.includes(skill);
+                }) : true )
+            )
+            createTable(filtered)
+        })
+        // create unfiltered table
+        $("#createTable").click(function () {
+            createTable(obj)
+            $("#filterDiv").show()
+            $("#tableUl").hide()
+        });
+        $("#sortByAge").click( function () {
+            let skills = $('select#skills').val()
+            let name = $("input[name='name']").val()
+            let age = $("input[name='age']").val()
+            let filtered = obj.filter(person =>
+                (!!name ? person.name.toLowerCase().includes(name.toLowerCase()): true ) &&
+                (!!age ? person.age === Number.parseInt(age) : true ) &&
+                // (!!skills ? skills.some(skill => {
+                (!!skills ? skills.every(skill => {
+                    return person.skills.includes(skill);
+                }) : true )
+            )
+
+            createTable(filtered.sort((a,b) => a.age < b.age ? -1 : a.age > b.age ? 1 : 0))
+        })
+    });
+ function createTable(obj) {
+
+     // add new skills to filter drop down
+     let skills =  $("#skills")
+     // repopulate
+     skills.children().remove()
+     obj.map(person => {
+         person.skills.map(skill => {
+             skills.append('<option value="' + skill +'">' + skill + '</option>')
+         })
+     })
+
+     var table_body = '<table border="1" id="skillsTable">';
+     table_body += '<tr><td>Name</td><td>Age</td><td>Skills</td></tr>'
+     for (let person of obj) {
+         table_body += '<tr>';
+         table_body += '<td><input type="text" value="' + person.name +'"></td>';
+
+         table_body += '<td>' + person.age + '</td>';
+         let skillList = ""
+         person.skills.forEach(skill => {
+             skillList += '<li>' + skill + ' </li>'
+         })
+         table_body += '<td>' + '<ul>' + skillList + '</ul>' + '</td>';
+         table_body += `<td> <button id=button-${obj.name}>Update</button> </td>`;
+
+         table_body += '</tr>';
+     }
+     table_body += '</table>';
+     $('#tableDiv').html(table_body);
+ }
+    // window.onload() does more
+    $(window).on("load", function () {
+        console.log("window loaded");
+    });
+ function compare(a,b) {
+     return a < b ? -1 : a > b ? 1 : 0
+
+ }
+</script>
+</html>
